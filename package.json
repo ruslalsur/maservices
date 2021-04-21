@@ -5,9 +5,9 @@
   "main": "express.js",
   "scripts": {
     "start": "NODE_ENV=production node -r dotenv/config express.js",
-    "server:dev": "nodemon -r dotenv/config express.js",
-    "client:dev": "npm run start --prefix client",
-    "client:build": "export NODE_OPTIONS=--max_old_space_size=2048 && npm run build --prefix client",
+    "server:dev": "NODE_ENV=development nodemon -r dotenv/config express.js",
+    "client:dev": "NODE_ENV=development npm run start --prefix client",
+    "client:build": "NODE_ENV=production export NODE_OPTIONS=--max_old_space_size=2048 && npm run build --prefix client",
     "client:install": "npm install --prefix client",
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
