@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core'
 import { MoreVert } from '@material-ui/icons'
 import MenuIcon from '@material-ui/icons/Menu'
+import { blueGrey } from '@material-ui/core/colors'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { TemporaryDrawer } from './TemporaryDrawer'
@@ -18,6 +19,10 @@ import { TemporaryDrawer } from './TemporaryDrawer'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+  },
+  appBar: {
+    flexGrow: 1,
+    backgroundColor: blueGrey[700],
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -27,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appName: {
     display: 'inline-block',
-    fontWeight: 500,
+    fontWeight: 600,
     cursor: 'pointer',
     transition: '0.5s ease-in-out',
     '&:hover': {
@@ -45,18 +50,31 @@ export const MenuAppBar = () => {
   const anchorElBool = Boolean(anchorEl)
   const [open, setOpen] = useState(false)
 
+  const handleAppNameClick = (e) => {
+    if (e.target.tagName === 'DIV') history.push('/')
+  }
+
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleClose = () => {
+  const handleClose = (e) => {
     setAnchorEl(null)
-    history.push('/settings')
+
+    const id = e.target.id
+    if (!!id) {
+      switch (id) {
+        case '1':
+          history.push('/settings')
+          break
+        default:
+      }
+    }
   }
 
   return (
     <div className={classes.root}>
-      <AppBar position='static'>
+      <AppBar className={classes.appBar} position='static'>
         <Container>
           <Toolbar disableGutters>
             <IconButton
@@ -72,7 +90,7 @@ export const MenuAppBar = () => {
             <Typography
               variant='h6'
               className={classes.title}
-              onClick={() => history.push('/')}
+              onClick={handleAppNameClick}
             >
               <Box px={1} className={classes.appName}>
                 {process.env.REACT_APP_NAME}
@@ -106,7 +124,9 @@ export const MenuAppBar = () => {
                 open={anchorElBool}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Настройки</MenuItem>
+                <MenuItem id='1' onClick={(e) => handleClose(e)}>
+                  Настройки
+                </MenuItem>
               </Menu>
             </div>
           </Toolbar>
