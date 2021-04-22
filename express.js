@@ -1,6 +1,8 @@
 const express = require('express')
 const path = require('path')
 
+const port = process.env.PORT || 7002
+
 const app = express()
 app.use(express.json())
 
@@ -15,9 +17,9 @@ if (process.env.NODE_ENV === 'production') {
 
 const start = async () => {
   try {
-    app.listen(process.env.PORT, () =>
+    app.listen(port, () =>
       console.log(
-        `слушаю на http://127.0.0.1:${process.env.PORT} в режиме ${process.env.NODE_ENV}`
+        `слушаю на http://127.0.0.1:${port} в режиме ${process.env.NODE_ENV}`
       )
     )
   } catch (err) {
