@@ -1,7 +1,7 @@
 {
   "name": "maservices",
   "version": "1.0.0",
-  "description": "servises fof Masha",
+  "description": "servises for Masha",
   "main": "express.js",
   "scripts": {
     "start": "NODE_ENV=production node -r dotenv/config express.js",
