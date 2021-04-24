@@ -19,7 +19,7 @@ const start = async () => {
   try {
     app.listen(port, () =>
       console.log(
-        `слушаю на http://127.0.0.1:${port} в режиме ${process.env.NODE_ENV}`
+        `слушаю на http://localhost:${port} в режиме ${process.env.NODE_ENV}`
       )
     )
   } catch (err) {
