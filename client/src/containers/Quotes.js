@@ -22,13 +22,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Quotes = () => {
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }))(TableRow)
+  // const StyledTableRow = withStyles((theme) => ({
+  //   root: {
+  //     '&:nth-of-type(odd)': {
+  //       backgroundColor: theme.palette.action.hover,
+  //     },
+  //   },
+  // }))(TableRow)
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -100,11 +100,11 @@ export const Quotes = () => {
                       </TableHead>
                       <TableBody>
                         {fileNames.map((item, index) => (
-                          <StyledTableRow key={index}>
+                          <TableRow key={index}>
                             <TableCell component='th' scope='row'>
                               {item}
                             </TableCell>
-                          </StyledTableRow>
+                          </TableRow>
                         ))}
                       </TableBody>
                     </Table>
@@ -137,7 +137,7 @@ export const Quotes = () => {
                       </TableHead>
                       <TableBody>
                         {result.map((item, index) => (
-                          <StyledTableRow key={index}>
+                          <TableRow key={index}>
                             <TableCell
                               padding='none'
                               align='center'
@@ -149,7 +149,7 @@ export const Quotes = () => {
                             <TableCell component='th' scope='row'>
                               {item[1]}
                             </TableCell>
-                          </StyledTableRow>
+                          </TableRow>
                         ))}
                       </TableBody>
                     </Table>
