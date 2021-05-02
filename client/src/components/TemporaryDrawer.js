@@ -48,7 +48,14 @@ export const TemporaryDrawer = ({ open, setOpen }) => {
               }}
             >
               <ListItemIcon>
-                <Home classes={{ root: classes.iconRoot }} />
+                <Home
+                  classes={{
+                    root:
+                      location.pathname === '/'
+                        ? classes.listItemSelected
+                        : classes.iconRoot,
+                  }}
+                />
               </ListItemIcon>
               <ListItemText primary='Главная' />
             </ListItem>
@@ -61,7 +68,14 @@ export const TemporaryDrawer = ({ open, setOpen }) => {
               }}
             >
               <ListItemIcon>
-                <Poll classes={{ root: classes.iconRoot }} />
+                <Poll
+                  classes={{
+                    root:
+                      location.pathname === '/quotes'
+                        ? classes.listItemSelected
+                        : classes.iconRoot,
+                  }}
+                />
               </ListItemIcon>
               <ListItemText primary='Квоты' />
             </ListItem>
@@ -76,7 +90,10 @@ export const TemporaryDrawer = ({ open, setOpen }) => {
               <ListItemIcon>
                 <Explore
                   classes={{
-                    root: classes.iconRoot,
+                    root:
+                      location.pathname === '/routes'
+                        ? classes.listItemSelected
+                        : classes.iconRoot,
                   }}
                 />
               </ListItemIcon>
