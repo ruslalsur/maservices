@@ -1,5 +1,5 @@
 import React from 'react'
 
 export const Routes = () => {
-  return <h1>Routes</h1>
+  return <h4 style={{ color: 'white' }}>в разработке ...</h4>
 }
