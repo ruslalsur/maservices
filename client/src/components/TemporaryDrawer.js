@@ -10,7 +10,17 @@ import { useHistory, useLocation } from 'react-router-dom'
 
 const useStyles = makeStyles({
   list: {
-    width: 250,
+    width: 200,
+  },
+  drawerRoot: {
+    backgroundColor: 'rgba(20, 30, 30, 0.8)',
+    color: '#eeeeee',
+  },
+  iconRoot: {
+    color: '#eeeeeecc',
+  },
+  listItemSelected: {
+    color: 'yellow',
   },
 })
 
@@ -21,16 +31,24 @@ export const TemporaryDrawer = ({ open, setOpen }) => {
 
   return (
     <div>
-      <Drawer anchor='left' open={open} onClose={() => setOpen(false)}>
+      <Drawer
+        classes={{ paper: classes.drawerRoot }}
+        anchor='left'
+        open={open}
+        onClose={() => setOpen(false)}
+      >
         <div role='presentation' onClick={() => setOpen(false)}>
           <List className={classes.list}>
             <ListItem
               button
               selected={location.pathname === '/'}
               onClick={() => history.push('/')}
+              classes={{
+                selected: classes.listItemSelected,
+              }}
             >
               <ListItemIcon>
-                <Home />
+                <Home classes={{ root: classes.iconRoot }} />
               </ListItemIcon>
               <ListItemText primary='Главная' />
             </ListItem>
@@ -38,9 +56,12 @@ export const TemporaryDrawer = ({ open, setOpen }) => {
               button
               selected={location.pathname === '/quotes'}
               onClick={() => history.push('/quotes')}
+              classes={{
+                selected: classes.listItemSelected,
+              }}
             >
               <ListItemIcon>
-                <Poll />
+                <Poll classes={{ root: classes.iconRoot }} />
               </ListItemIcon>
               <ListItemText primary='Квоты' />
             </ListItem>
@@ -48,9 +69,16 @@ export const TemporaryDrawer = ({ open, setOpen }) => {
               button
               selected={location.pathname === '/routes'}
               onClick={() => history.push('/routes')}
+              classes={{
+                selected: classes.listItemSelected,
+              }}
             >
               <ListItemIcon>
-                <Explore />
+                <Explore
+                  classes={{
+                    root: classes.iconRoot,
+                  }}
+                />
               </ListItemIcon>
               <ListItemText primary='Маршруты' />
             </ListItem>

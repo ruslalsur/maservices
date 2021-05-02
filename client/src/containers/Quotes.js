@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
-import { blueGrey } from '@material-ui/core/colors'
 import {
   Grid,
   Box,
@@ -12,27 +11,26 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Hidden,
 } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  tableContainerRoot: {
+    backgroundColor: 'rgba(69, 80, 85, 0.5)',
+  },
+  tableCell: {
+    color: '#eee',
+    border: 'none',
+  },
   table: {
     minWidth: '100%',
   },
 }))
 
 export const Quotes = () => {
-  // const StyledTableRow = withStyles((theme) => ({
-  //   root: {
-  //     '&:nth-of-type(odd)': {
-  //       backgroundColor: theme.palette.action.hover,
-  //     },
-  //   },
-  // }))(TableRow)
-
   const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor: blueGrey[500],
+      backgroundColor: 'rgba(20, 40, 50, 0.5)',
       color: theme.palette.common.white,
       fontWeight: 600,
     },
@@ -67,7 +65,7 @@ export const Quotes = () => {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Box mb={1}>
+          <Box mt={1}>
             <Button variant='contained' color='secondary'>
               <label htmlFor='filenames'>Выбрать имена файлов</label>
               <input
@@ -83,43 +81,57 @@ export const Quotes = () => {
           </Box>
         </Grid>
         {!fileNames.length ? null : (
-          <Grid item xs={12} md={6}>
-            <Grid container direction='column'>
-              <Grid item>
-                <Box>
-                  <TableContainer component={Paper}>
-                    <Table
-                      className={classes.table}
-                      size='small'
-                      aria-label='a dense table'
+          <Hidden smDown>
+            <Grid item xs={12} md={6}>
+              <Grid container direction='column'>
+                <Grid item>
+                  <Box>
+                    <TableContainer
+                      component={Paper}
+                      classes={{ root: classes.tableContainerRoot }}
                     >
-                      <TableHead>
-                        <TableRow>
-                          <StyledTableCell>Выбранные файлы</StyledTableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {fileNames.map((item, index) => (
-                          <TableRow key={index}>
-                            <TableCell component='th' scope='row'>
-                              {item}
-                            </TableCell>
+                      <Table
+                        className={classes.table}
+                        size='small'
+                        aria-label='a dense table'
+                      >
+                        <TableHead>
+                          <TableRow>
+                            <StyledTableCell>
+                              Выбранные имена файлов
+                            </StyledTableCell>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Box>
+                        </TableHead>
+                        <TableBody>
+                          {fileNames.map((item, index) => (
+                            <TableRow key={index}>
+                              <TableCell
+                                component='th'
+                                scope='row'
+                                classes={{ root: classes.tableCell }}
+                              >
+                                {item}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Box>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          </Hidden>
         )}
         {!result.length ? null : (
           <Grid item xs={12} md={6}>
             <Grid container direction='column'>
               <Grid item>
                 <Box>
-                  <TableContainer component={Paper}>
+                  <TableContainer
+                    component={Paper}
+                    classes={{ root: classes.tableContainerRoot }}
+                  >
                     <Table
                       className={classes.table}
                       size='small'
@@ -143,10 +155,15 @@ export const Quotes = () => {
                               align='center'
                               component='th'
                               scope='row'
+                              classes={{ root: classes.tableCell }}
                             >
                               {item[0]}
                             </TableCell>
-                            <TableCell component='th' scope='row'>
+                            <TableCell
+                              component='th'
+                              scope='row'
+                              classes={{ root: classes.tableCell }}
+                            >
                               {item[1]}
                             </TableCell>
                           </TableRow>

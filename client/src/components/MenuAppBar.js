@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core'
 import { MoreVert } from '@material-ui/icons'
 import MenuIcon from '@material-ui/icons/Menu'
-import { blueGrey } from '@material-ui/core/colors'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { TemporaryDrawer } from './TemporaryDrawer'
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     flexGrow: 1,
-    backgroundColor: blueGrey[700],
+    backgroundColor: 'rgba(69, 90, 99, 0.5)',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -38,6 +37,15 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       boxShadow: 'inset 0 0 0 1px #53ea93',
       borderRadius: 2,
+    },
+  },
+  settingMenuRoot: {
+    backgroundColor: 'rgba(200, 70, 60, 0.9)',
+  },
+  settingMenuItemRoot: {
+    color: '#fff',
+    '&:hover': {
+      color: 'yellow',
     },
   },
 }))
@@ -123,8 +131,13 @@ export const MenuAppBar = () => {
                 }}
                 open={anchorElBool}
                 onClose={handleClose}
+                classes={{ paper: classes.settingMenuRoot }}
               >
-                <MenuItem id='1' onClick={(e) => handleClose(e)}>
+                <MenuItem
+                  id='1'
+                  onClick={(e) => handleClose(e)}
+                  classes={{ root: classes.settingMenuItemRoot }}
+                >
                   Настройки
                 </MenuItem>
               </Menu>
