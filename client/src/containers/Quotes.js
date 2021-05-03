@@ -16,10 +16,9 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   tableContainerRoot: {
-    backgroundColor: 'rgba(69, 80, 85, 0.5)',
+    backgroundColor: 'rgba(200, 220, 230, 0.8)',
   },
   tableCell: {
-    color: '#eee',
     border: 'none',
   },
   table: {
@@ -33,6 +32,8 @@ export const Quotes = () => {
       backgroundColor: 'rgba(20, 40, 50, 0.5)',
       color: theme.palette.common.white,
       fontWeight: 600,
+      border: 'none',
+      userSelect: 'none',
     },
     body: {
       fontSize: 14,

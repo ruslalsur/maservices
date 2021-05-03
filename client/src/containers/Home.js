@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1.5rem',
     fontWeight: 700,
     letterSpacing: 2.2,
-    color: '#fffa',
+    color: '#eeec',
     '@media (max-width: 600px)': {
       fontSize: '1.2rem',
     },
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1.2rem',
     fontWeight: 600,
     letterSpacing: 2.2,
-    color: '#ee3333dd',
+    color: '#ff3333ee',
     textAlign: 'right',
     '@media (max-width: 600px)': {
       fontSize: '1rem',
