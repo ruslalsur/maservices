@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import {
   Grid,
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tableCell: {
     border: 'none',
-    // userSelect: 'none',
+    userSelect: 'none',
   },
   table: {
     minWidth: '100%',
@@ -73,10 +73,7 @@ export const Quotes = () => {
   const classes = useStyles()
   const [fileNames, setFileNames] = useState([])
   const [result, setResult] = useState([])
-  const [copyed, setCopied] = useState(false)
-  const resultTableRef = useRef(null)
-  const range = document.createRange()
-  const selection = window.getSelection()
+  const [copied, setCopied] = useState(false)
 
   const tranform = (data) => {
     return data.map((item) => {
@@ -88,21 +85,24 @@ export const Quotes = () => {
     })
   }
 
+  const copyToClipBoard = (data) => {
+    const clipRow = data.map((item) => `${item[0]}\t${item[1]}`)
+    const clipText = clipRow.join('\n')
+    navigator.clipboard
+      .writeText(clipText)
+      .then(() => setCopied(true))
+      .catch(() => setCopied(false))
+  }
+
   useEffect(() => {
     setResult((prev) => tranform(fileNames))
   }, [fileNames])
 
   useEffect(() => {
-    if (resultTableRef.current) {
-      const el = resultTableRef.current
-
-      range.selectNode(el)
-      selection.removeAllRanges()
-      selection.addRange(range)
-      setCopied(document.execCommand('copy'))
-      selection.removeAllRanges()
+    if (result) {
+      copyToClipBoard(result)
     }
-  }, [result, range, selection])
+  }, [result])
 
   const handleFileInputChange = (e) => {
     setFileNames((prev) => Array.from(e.target.files).map((item) => item.name))
@@ -144,7 +144,7 @@ export const Quotes = () => {
                 </Tooltip>
               </Box>
             </Grid>
-            {copyed && (
+            {copied && (
               <Grid item xs={6}>
                 <Box mt={1} className={classes.copyBox}>
                   <Tooltip
@@ -218,37 +218,39 @@ export const Quotes = () => {
                       className={classes.table}
                       size='small'
                       aria-label='a dense table'
-                      ref={resultTableRef}
                     >
-                      {/* <TableHead>
+                      <TableHead>
                         <TableRow>
-                          <StyledTableCell padding='none' align='center'>
-                            <Box ml={1}>Квоты</Box>
+                          <StyledTableCell
+                            padding='none'
+                            variant='head'
+                            align='center'
+                          >
+                            Квоты
                           </StyledTableCell>
                           <StyledTableCell variant='head'>
                             Адреса
                           </StyledTableCell>
                         </TableRow>
-                      </TableHead> */}
+                      </TableHead>
                       <TableBody>
                         {result.map((item, index) => (
                           <TableRow key={index}>
                             <TableCell
-                              padding='none'
                               align='center'
                               component='th'
                               scope='row'
                               classes={{ root: classes.tableCell }}
+                              padding='none'
                             >
-                              <Box px={1}>{item[0]}</Box>
+                              {item[0]}
                             </TableCell>
                             <TableCell
-                              padding='none'
                               component='th'
                               scope='row'
                               classes={{ root: classes.tableCell }}
                             >
-                              <Box py={0.7}>{item[1]}</Box>
+                              {item[1]}
                             </TableCell>
                           </TableRow>
                         ))}
