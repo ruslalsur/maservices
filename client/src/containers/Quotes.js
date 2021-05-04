@@ -26,10 +26,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     marginRight: '3px',
     fontSize: '0.8rem',
-    fontWeight: 600,
+    fontWeight: 700,
     letterSpacing: 1.1,
-    backgroundColor: 'rgba(20, 30, 30, 0.6)',
-    color: '#0f8a',
+    backgroundColor: 'rgba(10, 30, 30, 0.7)',
+    color: '#0e9b',
     border: '2px solid #0f85',
     borderRadius: 5,
     paddingRight: 10,
@@ -37,6 +37,11 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 3,
     paddingBottom: 5,
     userSelect: 'none',
+    animation: '$blink 1.5s alternate infinite',
+  },
+  '@keyframes blink': {
+    from: { border: '2px solid #0f81' },
+    to: { border: '2px dashe #0f85' },
   },
   tooltip: {
     fontSize: '0.89rem',
@@ -49,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
   },
   tableCell: {
     border: 'none',
-    userSelect: 'none',
   },
   table: {
     minWidth: '100%',
@@ -99,9 +103,7 @@ export const Quotes = () => {
   }, [fileNames])
 
   useEffect(() => {
-    if (result) {
-      copyToClipBoard(result)
-    }
+    if (result.length) if (window.navigator) copyToClipBoard(result)
   }, [result])
 
   const handleFileInputChange = (e) => {
