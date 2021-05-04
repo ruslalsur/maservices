@@ -17,23 +17,23 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontFamily: 'Conv_Pangolin-Regular',
-    fontSize: '1.5rem',
+    fontSize: '1.7rem',
     fontWeight: 700,
     letterSpacing: 2.2,
     color: '#eeec',
     '@media (max-width: 600px)': {
-      fontSize: '1.2rem',
+      fontSize: '1.4rem',
     },
   },
   titleDesc: {
     fontFamily: 'Conv_Pangolin-Regular',
-    fontSize: '1.2rem',
+    fontSize: '1.5rem',
     fontWeight: 600,
     letterSpacing: 2.2,
-    color: '#ff3333ee',
+    color: '#ee4433ee',
     textAlign: 'right',
     '@media (max-width: 600px)': {
-      fontSize: '1rem',
+      fontSize: '1.2rem',
     },
   },
 }))

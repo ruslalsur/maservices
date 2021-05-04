@@ -10,7 +10,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 
 const useStyles = makeStyles({
   list: {
-    width: 200,
+    width: 240,
   },
   drawerRoot: {
     backgroundColor: 'rgba(20, 30, 30, 0.8)',

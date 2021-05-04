@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import {
   Grid,
@@ -12,14 +12,44 @@ import {
   TableRow,
   Paper,
   Hidden,
+  Tooltip,
 } from '@material-ui/core'
+import PanToolIcon from '@material-ui/icons/PanTool'
 
 const useStyles = makeStyles((theme) => ({
+  copyBox: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  copyBoxText: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '3px',
+    fontSize: '0.8rem',
+    fontWeight: 600,
+    letterSpacing: 1.1,
+    backgroundColor: 'rgba(20, 30, 30, 0.6)',
+    color: '#0f8a',
+    border: '2px solid #0f85',
+    borderRadius: 5,
+    paddingRight: 10,
+    paddingLeft: 10,
+    paddingTop: 3,
+    paddingBottom: 5,
+    userSelect: 'none',
+  },
+  tooltip: {
+    fontSize: '0.89rem',
+    backgroundColor: 'rgba(20, 30, 30, 0.5)',
+    color: '#ff0a',
+    boxShadow: '0 0 2px #ff0',
+  },
   tableContainerRoot: {
-    backgroundColor: 'rgba(200, 220, 230, 0.8)',
+    backgroundColor: 'rgba(200, 220, 230, 0.75)',
   },
   tableCell: {
     border: 'none',
+    // userSelect: 'none',
   },
   table: {
     minWidth: '100%',
@@ -29,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 export const Quotes = () => {
   const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor: 'rgba(20, 40, 50, 0.5)',
+      backgroundColor: 'rgba(20, 40, 50, 0.6)',
       color: theme.palette.common.white,
       fontWeight: 600,
       border: 'none',
@@ -43,6 +73,10 @@ export const Quotes = () => {
   const classes = useStyles()
   const [fileNames, setFileNames] = useState([])
   const [result, setResult] = useState([])
+  const [copyed, setCopied] = useState(false)
+  const resultTableRef = useRef(null)
+  const range = document.createRange()
+  const selection = window.getSelection()
 
   const tranform = (data) => {
     return data.map((item) => {
@@ -58,6 +92,18 @@ export const Quotes = () => {
     setResult((prev) => tranform(fileNames))
   }, [fileNames])
 
+  useEffect(() => {
+    if (resultTableRef.current) {
+      const el = resultTableRef.current
+
+      range.selectNode(el)
+      selection.removeAllRanges()
+      selection.addRange(range)
+      setCopied(document.execCommand('copy'))
+      selection.removeAllRanges()
+    }
+  }, [result, range, selection])
+
   const handleFileInputChange = (e) => {
     setFileNames((prev) => Array.from(e.target.files).map((item) => item.name))
   }
@@ -66,24 +112,59 @@ export const Quotes = () => {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Box mt={1}>
-            <Button variant='contained' color='secondary'>
-              <label htmlFor='filenames'>Выбрать имена файлов</label>
-              <input
-                hidden
-                type='file'
-                id='filenames'
-                name='filenames'
-                multiple
-                onChange={handleFileInputChange}
-                accept='.xls, .xlsx'
-              />
-            </Button>
-          </Box>
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              <Box mt={1}>
+                <Tooltip
+                  classes={{
+                    tooltip: classes.tooltip,
+                  }}
+                  title='Выбор имен файлов'
+                  placement='top'
+                >
+                  <Button
+                    startIcon={<PanToolIcon />}
+                    variant='contained'
+                    color='secondary'
+                    size='small'
+                  >
+                    <label htmlFor='filenames' style={{ cursor: 'pointer' }}>
+                      Выбрать
+                    </label>
+                    <input
+                      hidden
+                      type='file'
+                      id='filenames'
+                      name='filenames'
+                      multiple
+                      onChange={handleFileInputChange}
+                      accept='.xls, .xlsx'
+                    />
+                  </Button>
+                </Tooltip>
+              </Box>
+            </Grid>
+            {copyed && (
+              <Grid item xs={6}>
+                <Box mt={1} className={classes.copyBox}>
+                  <Tooltip
+                    classes={{
+                      tooltip: classes.tooltip,
+                    }}
+                    title='Результат уже скопирован'
+                    placement='top'
+                  >
+                    <div className={classes.copyBoxText}>скопировано</div>
+                  </Tooltip>
+                </Box>
+              </Grid>
+            )}
+          </Grid>
         </Grid>
+
         {!fileNames.length ? null : (
           <Hidden smDown>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={6}>
               <Grid container direction='column'>
                 <Grid item>
                   <Box>
@@ -137,8 +218,9 @@ export const Quotes = () => {
                       className={classes.table}
                       size='small'
                       aria-label='a dense table'
+                      ref={resultTableRef}
                     >
-                      <TableHead>
+                      {/* <TableHead>
                         <TableRow>
                           <StyledTableCell padding='none' align='center'>
                             <Box ml={1}>Квоты</Box>
@@ -147,7 +229,7 @@ export const Quotes = () => {
                             Адреса
                           </StyledTableCell>
                         </TableRow>
-                      </TableHead>
+                      </TableHead> */}
                       <TableBody>
                         {result.map((item, index) => (
                           <TableRow key={index}>
@@ -158,14 +240,15 @@ export const Quotes = () => {
                               scope='row'
                               classes={{ root: classes.tableCell }}
                             >
-                              {item[0]}
+                              <Box px={1}>{item[0]}</Box>
                             </TableCell>
                             <TableCell
+                              padding='none'
                               component='th'
                               scope='row'
                               classes={{ root: classes.tableCell }}
                             >
-                              {item[1]}
+                              <Box py={0.7}>{item[1]}</Box>
                             </TableCell>
                           </TableRow>
                         ))}
