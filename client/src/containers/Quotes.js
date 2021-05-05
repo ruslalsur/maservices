@@ -37,11 +37,11 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 3,
     paddingBottom: 5,
     userSelect: 'none',
-    animation: '$blink 1.5s alternate infinite',
+    animation: '$blink 2s alternate infinite',
   },
   '@keyframes blink': {
-    from: { border: '2px solid #0f81' },
-    to: { border: '2px dashe #0f85' },
+    from: { border: '3px solid #0f82' },
+    to: { border: '3px solid #0f86' },
   },
   tooltip: {
     fontSize: '0.89rem',
@@ -82,22 +82,28 @@ export const Quotes = () => {
   const tranform = (data) => {
     return data.map((item) => {
       const cleanLine = item
-        .replace(/(A|А[0-9]+-)/g, '')
-        .replace(/([.xls|.xlsx]+$)/g, '')
+        .replace(/^[A-Za-zА-яа-яЁё0-9]+-/g, '')
+        .replace(/[.xls|.xlsx]+$/g, '')
       const cleanLineArr = cleanLine.split(' ')
       return [cleanLineArr.shift(), cleanLineArr.join(' ')]
     })
   }
 
   const copyToClipBoard = async (data) => {
-    const clipRow = data.map((item) => `${item[0]}\t${item[1]}`)
-    const clipText = clipRow.join('\n')
-    try {
-      await navigator.clipboard.writeText(clipText)
-      setCopied(true)
-    } catch (err) {
-      setCopied(false)
-      console.log(`Clipboard copy ERR: `, err)
+    const clipSupport = await navigator.clipboard
+    if (!!clipSupport) {
+      const clipRow = data.map((item) => `${item[0]}\t${item[1]}`)
+      const clipText = clipRow.join('\n')
+
+      try {
+        await navigator.clipboard.writeText(clipText)
+        setCopied(true)
+      } catch (err) {
+        setCopied(false)
+        console.log(`Clipboard copy attempt fault: `, err)
+      }
+    } else {
+      console.log(`async clipboard API not support: `, clipSupport)
     }
   }
 
@@ -106,7 +112,7 @@ export const Quotes = () => {
   }, [fileNames])
 
   useEffect(() => {
-    if (!!result.length) if (!!window.navigator) copyToClipBoard(result)
+    if (!!result.length) copyToClipBoard(result)
   }, [result])
 
   const handleFileInputChange = (e) => {

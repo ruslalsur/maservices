@@ -40,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   settingMenuRoot: {
-    backgroundColor: 'rgba(200, 70, 60, 0.9)',
+    backgroundColor: 'rgba(20, 30, 30, 1)',
+    border: '2px solid #356c',
   },
   settingMenuItemRoot: {
     color: '#fff',

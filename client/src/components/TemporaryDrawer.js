@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { Explore, Home, Poll } from '@material-ui/icons'
+import SettingsIcon from '@material-ui/icons/Settings'
 import { useHistory, useLocation } from 'react-router-dom'
 
 const useStyles = makeStyles({
@@ -98,6 +99,26 @@ export const TemporaryDrawer = ({ open, setOpen }) => {
                 />
               </ListItemIcon>
               <ListItemText primary='Маршруты' />
+            </ListItem>
+            <ListItem
+              button
+              selected={location.pathname === '/settings'}
+              onClick={() => history.push('/settings')}
+              classes={{
+                selected: classes.listItemSelected,
+              }}
+            >
+              <ListItemIcon>
+                <SettingsIcon
+                  classes={{
+                    root:
+                      location.pathname === '/settings'
+                        ? classes.listItemSelected
+                        : classes.iconRoot,
+                  }}
+                />
+              </ListItemIcon>
+              <ListItemText primary='Настройки' />
             </ListItem>
           </List>
         </div>
