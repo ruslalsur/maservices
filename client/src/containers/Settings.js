@@ -41,7 +41,7 @@ export const Settings = (e) => {
               control={
                 <CheckBox
                   color='secondary'
-                  checked={setting.autoCopy}
+                  checked={setting.isAutoCopy}
                   name='isAutoCopy'
                   onClick={handleChange}
                   inputProps={{ 'aria-label': 'secondary checkbox' }}
