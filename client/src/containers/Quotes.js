@@ -89,13 +89,16 @@ export const Quotes = () => {
     })
   }
 
-  const copyToClipBoard = (data) => {
+  const copyToClipBoard = async (data) => {
     const clipRow = data.map((item) => `${item[0]}\t${item[1]}`)
     const clipText = clipRow.join('\n')
-    navigator.clipboard
-      .writeText(clipText)
-      .then(() => setCopied(true))
-      .catch(() => setCopied(false))
+    try {
+      await navigator.clipboard.writeText(clipText)
+      setCopied(true)
+    } catch (err) {
+      setCopied(false)
+      console.log(`Clipboard copy ERR: `, err)
+    }
   }
 
   useEffect(() => {
@@ -103,7 +106,7 @@ export const Quotes = () => {
   }, [fileNames])
 
   useEffect(() => {
-    if (result.length) if (window.navigator) copyToClipBoard(result)
+    if (!!result.length) if (!!window.navigator) copyToClipBoard(result)
   }, [result])
 
   const handleFileInputChange = (e) => {
