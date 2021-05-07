@@ -1,16 +1,7 @@
 import React, { useState } from 'react'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
-import { Grid, Box, FormControlLabel, Checkbox } from '@material-ui/core'
-
-const CheckBox = withStyles({
-  root: {
-    color: '#aaa',
-    '&$checked': {
-      color: '#fff',
-    },
-  },
-  checked: {},
-})((props) => <Checkbox color='default' {...props} />)
+import { makeStyles } from '@material-ui/core/styles'
+import { Grid, Box, FormControlLabel } from '@material-ui/core'
+import Switch from '../components/Switch.js'
 
 const useStyles = makeStyles({
   settingsBox: {
@@ -20,11 +11,17 @@ const useStyles = makeStyles({
     color: '#ccc',
     padding: 10,
   },
+  settingBox: {
+    margin: '7px 20px 7px 20px',
+  },
+  label: {
+    marginLeft: 15,
+  },
 })
 
 export const Settings = (e) => {
   const classes = useStyles()
-  const [setting, setSetting] = useState({ isAutoCopy: true })
+  const [setting, setSetting] = useState({ autoCopy: true })
 
   const handleChange = (e) => {
     const value =
@@ -35,20 +32,21 @@ export const Settings = (e) => {
   return (
     <div>
       <Box className={classes.settingsBox}>
-        <Grid container spacing={1}>
+        <Grid container spacing={1} direction='column'>
           <Grid item>
-            <FormControlLabel
-              control={
-                <CheckBox
-                  color='secondary'
-                  checked={setting.isAutoCopy}
-                  name='isAutoCopy'
-                  onClick={handleChange}
-                  inputProps={{ 'aria-label': 'secondary checkbox' }}
-                />
-              }
-              label='Автокопирование результатов в буфер обмена (при наличии поддержки в браузере)'
-            />
+            <Box className={classes.settingBox}>
+              <FormControlLabel
+                classes={{ label: classes.label }}
+                control={
+                  <Switch
+                    name='autoCopy'
+                    checked={setting.autoCopy}
+                    onChange={handleChange}
+                  />
+                }
+                label='Автокопирование результатов в буфер обмена (при наличии поддержки в браузере)'
+              />
+            </Box>
           </Grid>
         </Grid>
       </Box>
